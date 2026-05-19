@@ -205,7 +205,8 @@ main {
 }
 
 .verified-badge {
-    color: var(--blue);
+    height: 18px;
+    width: auto;
     flex-shrink: 0;
 }
 
