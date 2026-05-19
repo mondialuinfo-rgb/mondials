@@ -5,21 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     const avatarImg = document.getElementById('avatarImg');
 
-    /* Avatar - fetch via CORS proxy to get image URL from Roblox API */
+    /* Avatar - direct Roblox image endpoint (no CORS issues for img tags) */
     if (avatarImg) {
-        const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://thumbnails.roblox.com/v1/users/avatar?userIds=5662903226&size=420x420&format=Png&isCircular=false');
-        fetch(proxyUrl)
-            .then(r => r.json())
-            .then(data => {
-                const json = JSON.parse(data.contents);
-                if (json.data && json.data[0] && json.data[0].imageUrl) {
-                    avatarImg.src = json.data[0].imageUrl;
-                }
-            })
-            .catch(() => {
-                /* Fallback: try direct legacy endpoint */
-                avatarImg.src = 'https://www.roblox.com/avatar-thumbnail/image?userId=5662903226&width=420&height=420&format=png';
-            });
+        avatarImg.src = 'https://www.roblox.com/avatar-thumbnail/image?userId=5662903226&width=420&height=420&format=png';
     }
 
     /* Scroll animations */
