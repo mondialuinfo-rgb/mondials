@@ -1,15 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const nav = document.getElementById('nav');
     const fades = document.querySelectorAll('.fade');
-    const avatarImg = document.getElementById('avatarImg');
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
-
-    /* Avatar - use Roblox legacy endpoint */
-    avatarImg.src = 'https://www.roblox.com/headshot-thumbnail/image?userId=5662903226&width=48&height=48&format=png';
-    avatarImg.onerror = function() {
-        this.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><circle cx="24" cy="18" r="10" fill="%23333"/><ellipse cx="24" cy="42" rx="16" ry="12" fill="%23333"/></svg>';
-    };
 
     /* Scroll animations */
     const observer = new IntersectionObserver((entries) => {
