@@ -82,13 +82,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     audio.volume = 0.5;
 
-    audio.play().then(() => {
-        playIcon.style.display = 'none';
-        pauseIcon.style.display = 'block';
-    }).catch(() => {
-        playIcon.style.display = 'block';
-        pauseIcon.style.display = 'none';
-    });
+    function startMusic() {
+        audio.play().then(() => {
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+        }).catch(() => {
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+        });
+    }
+
+    startMusic();
+
+    document.addEventListener('click', function autoStart() {
+        startMusic();
+        document.removeEventListener('click', autoStart);
+    }, { once: true });
 
     toggleBtn.addEventListener('click', () => {
         if (audio.paused) {
