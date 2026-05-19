@@ -5,15 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
 
-    /* Avatar fetch */
-    fetch('https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=5662903226&size=48x48&format=Png&isCircular=false')
-        .then(r => r.json())
-        .then(data => {
-            if (data.data && data.data[0] && data.data[0].imageUrl) {
-                avatarImg.src = data.data[0].imageUrl;
-            }
-        })
-        .catch(() => {});
+    /* Avatar - use Roblox legacy endpoint */
+    avatarImg.src = 'https://www.roblox.com/headshot-thumbnail/image?userId=5662903226&width=48&height=48&format=png';
+    avatarImg.onerror = function() {
+        this.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><circle cx="24" cy="18" r="10" fill="%23333"/><ellipse cx="24" cy="42" rx="16" ry="12" fill="%23333"/></svg>';
+    };
 
     /* Scroll animations */
     const observer = new IntersectionObserver((entries) => {
