@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = FEATHER_SRC;
         img.className = 'feather';
         
-        const size = 20 + Math.random() * 20;
+        const size = 40 + Math.random() * 35;
         img.style.width = size + 'px';
         
         const startX = Math.random() * window.innerWidth;
