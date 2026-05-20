@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             function animateScroll() {
                 if (!isPaused && !isDragging) {
-                    scrollPos += 1.2;
+                    scrollPos += 0.5;
                     const resetPoint = cards.length * step;
                     if (scrollPos >= resetPoint) {
                         scrollPos = 0;
