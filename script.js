@@ -15,6 +15,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fades.forEach(el => observer.observe(el));
 
+    /* Animated counters */
+    const statNums = document.querySelectorAll('.stat-num[data-target]');
+    let countersAnimated = false;
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !countersAnimated) {
+                countersAnimated = true;
+                animateCounters();
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const statsSection = document.getElementById('stats');
+    if (statsSection) counterObserver.observe(statsSection);
+
+    function animateCounters() {
+        statNums.forEach(el => {
+            const target = parseInt(el.dataset.target);
+            const prefix = el.dataset.prefix || '';
+            const suffix = el.dataset.suffix || '';
+            const duration = 1500;
+            const start = performance.now();
+
+            function update(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(eased * target);
+
+                let display = current;
+                if (target >= 1000 && !suffix) {
+                    display = (current / 1000).toFixed(current >= target ? 0 : 1) + 'K';
+                } else {
+                    display = current.toString();
+                }
+
+                el.textContent = prefix + display + suffix;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    if (target >= 1000 && !suffix) {
+                        el.textContent = prefix + (target / 1000) + 'K' + suffix;
+                    } else {
+                        el.textContent = prefix + target + suffix;
+                    }
+                }
+            }
+
+            requestAnimationFrame(update);
+        });
+    }
+
     window.addEventListener('scroll', () => {
         nav.classList.toggle('scrolled', window.scrollY > 40);
     });

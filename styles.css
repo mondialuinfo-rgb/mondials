@@ -241,6 +241,56 @@ main {
     flex-shrink: 0;
 }
 
+.hero-groups-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
+
+.groups-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.group-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px 5px 5px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    text-decoration: none;
+    transition: border-color 0.3s ease, transform 0.2s ease;
+    cursor: url('assets/cursor.png') 16 16, pointer;
+}
+
+.group-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+}
+
+.group-card img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: block;
+    object-fit: cover;
+}
+
+.group-card span {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.01em;
+}
+
 /* SECTIONS */
 
 .about,
@@ -540,5 +590,22 @@ main {
 
     .avatar-name {
         font-size: 13px;
+    }
+
+    .groups-row {
+        gap: 8px;
+    }
+
+    .group-card {
+        padding: 4px 10px 4px 4px;
+    }
+
+    .group-card img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .group-card span {
+        font-size: 11px;
     }
 }
