@@ -259,4 +259,102 @@ document.addEventListener('DOMContentLoaded', () => {
     volumeSlider.addEventListener('input', (e) => {
         audio.volume = parseFloat(e.target.value);
     });
+
+    /* Reviews carousel */
+    const track = document.getElementById('reviewsTrack');
+    const wrapper = document.querySelector('.reviews-track-wrapper');
+    if (track && wrapper) {
+        const cards = track.querySelectorAll('.review-card');
+        if (cards.length > 0) {
+            const cardStyle = getComputedStyle(cards[0]);
+            const gap = 16;
+            const cardWidth = cards[0].offsetWidth;
+            const step = cardWidth + gap;
+            let scrollPos = 0;
+            let animationId = null;
+            let isPaused = false;
+            let isDragging = false;
+            let dragStartX = 0;
+            let dragStartScroll = 0;
+            let dragMoved = false;
+
+            const totalWidth = cards.length * step;
+            const cloneCount = Math.ceil(window.innerWidth / totalWidth) + 2;
+
+            for (let i = 0; i < cloneCount; i++) {
+                cards.forEach(card => {
+                    const clone = card.cloneNode(true);
+                    track.appendChild(clone);
+                });
+            }
+
+            function animateScroll() {
+                if (!isPaused && !isDragging) {
+                    scrollPos += 1.2;
+                    const resetPoint = cards.length * step;
+                    if (scrollPos >= resetPoint) {
+                        scrollPos = 0;
+                    }
+                    track.style.transform = `translateX(-${scrollPos}px)`;
+                }
+                animationId = requestAnimationFrame(animateScroll);
+            }
+            animateScroll();
+
+            wrapper.addEventListener('mouseenter', () => { isPaused = true; });
+            wrapper.addEventListener('mouseleave', () => { isPaused = false; });
+
+            wrapper.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                dragMoved = false;
+                wrapper.classList.add('dragging');
+                dragStartX = e.clientX;
+                dragStartScroll = scrollPos;
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - dragStartX;
+                if (Math.abs(dx) > 3) dragMoved = true;
+                const resetPoint = cards.length * step;
+                let newScroll = dragStartScroll - dx;
+                if (newScroll < 0) newScroll += resetPoint;
+                if (newScroll >= resetPoint) newScroll -= resetPoint;
+                scrollPos = Math.max(0, Math.min(newScroll, resetPoint - 0.01));
+                track.style.transform = `translateX(-${scrollPos}px)`;
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    wrapper.classList.remove('dragging');
+                }
+            });
+
+            wrapper.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                wrapper.classList.add('dragging');
+                dragStartX = e.touches[0].clientX;
+                dragStartScroll = scrollPos;
+            }, { passive: true });
+
+            wrapper.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const dx = e.touches[0].clientX - dragStartX;
+                if (Math.abs(dx) > 3) dragMoved = true;
+                const resetPoint = cards.length * step;
+                let newScroll = dragStartScroll - dx;
+                if (newScroll < 0) newScroll += resetPoint;
+                if (newScroll >= resetPoint) newScroll -= resetPoint;
+                scrollPos = Math.max(0, Math.min(newScroll, resetPoint - 0.01));
+                track.style.transform = `translateX(-${scrollPos}px)`;
+            }, { passive: true });
+
+            wrapper.addEventListener('touchend', () => {
+                isDragging = false;
+                wrapper.classList.remove('dragging');
+            }, { passive: true });
+        }
+    }
 });
