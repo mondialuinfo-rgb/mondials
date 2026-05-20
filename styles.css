@@ -485,13 +485,17 @@ main {
     display: inline;
 }
 
+.review-card-delia {
+    position: relative;
+}
+
 .review-star {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    height: 28px;
+    top: 8px;
+    right: 8px;
+    height: 22px;
     width: auto;
-    opacity: 0.6;
+    opacity: 0.7;
     z-index: 1;
     pointer-events: none;
 }
